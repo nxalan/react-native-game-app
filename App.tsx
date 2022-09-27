@@ -1,17 +1,37 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
-import { StartGameScreen, GameScreen } from '@/screens';
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
+import { StartGameScreen, GameScreen, GameOverScreen } from '@/screens';
 import { colors } from '@/utils'
 
 export default function App() {
-  const [userNumber, setUserNumber] = useState<number>(0);
+  const [userNumber, setUserNumber] = useState<number | null>(null);
+  const [gameIsOver, setGameIsOver] = useState(true);
+  const [fontsLoaded] = useFonts({
+    OpenSans: require('./assets/fonts/OpenSans-Bold.ttf'),
+    OpenSansBold: require('./assets/fonts/OpenSans-Bold.ttf'),
+  })
 
   function pickedNumberHandler(pickedNumber: number) {
     setUserNumber(pickedNumber);
+    setGameIsOver(false);
   }
 
+  useEffect(() => {
+    async function hideSplashScreen() {
+      await SplashScreen.hideAsync()
+    }
+    if (fontsLoaded) {
+      hideSplashScreen()
+    }
+  }, [fontsLoaded])
+
+  if (!fontsLoaded) {
+    return null
+  }
 
   return (
     <LinearGradient
@@ -25,11 +45,17 @@ export default function App() {
         imageStyle={styles.backgroundImage}
       >
         <SafeAreaView style={styles.rootScreen}>
-          {userNumber === 0 && (
+          {userNumber === null && gameIsOver && (
             <StartGameScreen onPickNumber={pickedNumberHandler} />
           )}
-          {userNumber === 1 && (
-            <GameScreen />
+          {userNumber && !gameIsOver && (
+            <GameScreen
+              userNumber={userNumber}
+              onGameOver={() => setGameIsOver(true)}
+            />
+          )}
+          {userNumber && gameIsOver && (
+            <GameOverScreen />
           )}
         </SafeAreaView>
       </ImageBackground>

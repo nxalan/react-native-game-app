@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Text } from "react-native";
-import styles from './Title-styles'
+import styles from './styles'
 
 type Props = {
   children: ReactNode

@@ -3,12 +3,12 @@ import { colors } from '@/utils';
 
 const styles = StyleSheet.create({
   title: {
+    fontFamily: 'open-sans-bold',
     fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.accent500,
+    color: colors.white,
     textAlign: 'center',
     borderWidth: 2,
-    borderColor: colors.accent500,
+    borderColor: colors.white,
     padding: 12
   }
 })

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { colors } from '@/utils';
-import styles from './PrimaryButton-styles';
+import styles from './styles';
 
 type Props = {
   children: ReactNode;

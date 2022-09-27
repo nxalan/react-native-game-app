@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextInput, View, Alert } from "react-native";
-import { PrimaryButton } from "@/components";
-import styles from './StartGameScreen-styles';
+import { Card, InstructionText, PrimaryButton, Title } from "@/components";
+import styles from './styles';
 
 type Props = {
   onPickNumber: (pickedNumber: number) => void
@@ -27,31 +27,35 @@ function StartGameScreen({ onPickNumber }: Props) {
         [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
       );
     } else {
-      onPickNumber(1);
+      onPickNumber(chosenNumber);
     }
   }
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.numberInput}
-        maxLength={2}
-        keyboardType="number-pad"
-        autoCapitalize="none"
-        autoCorrect={false}
-        onChangeText={numberInputHandler}
-        value={enteredNumber}
-      />
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+    <View style={styles.rootContainer}>
+      <Title>Guess My Number</Title>
+      <Card>
+        <InstructionText>Enter a Number</InstructionText>
+        <TextInput
+          style={styles.numberInput}
+          maxLength={2}
+          keyboardType="number-pad"
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={numberInputHandler}
+          value={enteredNumber}
+        />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={confirmInputHandler}>
+              Confirm
+            </PrimaryButton>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={confirmInputHandler}>
-            Confirm
-          </PrimaryButton>
-        </View>
-      </View>
+      </Card>
     </View>
   )
 }
