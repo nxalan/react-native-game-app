@@ -3,3 +3,4 @@ export { default as Title } from './Title/Title';
 export { default as NumberContainer } from './NumberContainer/NumberContainer';
 export { default as Card } from './Card/Card';
 export { default as InstructionText } from './InstructionText/InstructionText';
+export { default as GuessLogItem } from './GuessLogItem/GuessLogItem';

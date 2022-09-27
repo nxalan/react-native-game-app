@@ -3,7 +3,7 @@ import { colors } from "@/utils"
 
 export const styles = StyleSheet.create({
   instructionText: {
-    fontFamily: 'open-sans',
+    fontFamily: 'OpenSans',
     color: colors.accent500,
     fontSize: 24
   }

@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
   },
   instructionText: {
     marginBottom: 12
+  },
+  listContainer: {
+    flex: 1,
+    padding: 16
   }
 });
 

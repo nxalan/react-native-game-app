@@ -14,6 +14,6 @@ export const styles = StyleSheet.create({
   numberText: {
     color: colors.accent500,
     fontSize: 36,
-    fontFamily: 'open-sans-bold'
+    fontFamily: 'OpenSansBold'
   }
 });

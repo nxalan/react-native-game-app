@@ -1,24 +1,28 @@
 import { useState, useEffect } from 'react';
-import { View, Alert } from "react-native";
-import { Card, InstructionText, NumberContainer, PrimaryButton, Title } from "@/components";
+import { View, Alert, FlatList } from "react-native";
+import { Card, GuessLogItem, InstructionText, NumberContainer, PrimaryButton, Title } from "@/components";
 import { Ionicons } from '@expo/vector-icons';
 import { colors, generateRandomBetween } from '@/utils';
 import styles from './styles';
 
 type Props = {
   userNumber: number;
-  onGameOver: () => void
+  onGameOver: (numberOfRounds: number) => void
 }
 
 let minBoundary = 1;
 let maxBoundary = 100;
 
 function GameScreen({ userNumber, onGameOver }: Props) {
-  const [currentGuess, setCurrentGuess] = useState(generateRandomBetween(1, 100, userNumber));
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
+  const [currentGuess, setCurrentGuess] = useState<number>(initialGuess);
+  const [guessRounds, setGuessRounds] = useState<number[]>([initialGuess]);
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-      onGameOver();
+      minBoundary = 1;
+      maxBoundary = 100;
+      onGameOver(guessRounds.length);
     }
   }, [currentGuess, userNumber])
 
@@ -34,7 +38,9 @@ function GameScreen({ userNumber, onGameOver }: Props) {
       ])
       return;
     }
-    setCurrentGuess(generateRandomBetween(minBoundary, maxBoundary, currentGuess));
+    const newRandomNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
+    setCurrentGuess(newRandomNumber);
+    setGuessRounds((prevGuessRounds) => [newRandomNumber, ...prevGuessRounds]);
   };
 
   return (
@@ -51,11 +57,23 @@ function GameScreen({ userNumber, onGameOver }: Props) {
           </View>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={() => nextGuessHandler('lower')}>
-            <Ionicons name="md-remove" size={24} color={colors.white} />
+              <Ionicons name="md-remove" size={24} color={colors.white} />
             </PrimaryButton>
           </View>
         </View>
       </Card>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={guessRounds}
+          renderItem={(itemData) => (
+            <GuessLogItem
+              roundNumber={guessRounds.length - itemData.index}
+              guess={itemData.item}
+            />
+          )}
+          keyExtractor={(item) => item.toString()}
+        />
+      </View>
     </View>
   )
 }

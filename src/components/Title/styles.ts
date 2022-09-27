@@ -3,7 +3,7 @@ import { colors } from '@/utils';
 
 const styles = StyleSheet.create({
   title: {
-    fontFamily: 'open-sans-bold',
+    fontFamily: 'OpenSansBold',
     fontSize: 18,
     color: colors.white,
     textAlign: 'center',
